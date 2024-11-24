@@ -1,7 +1,7 @@
 package com.linklate.framework.minis.beans.factory.xml;
 
 import com.linklate.framework.minis.beans.factory.config.*;
-import com.linklate.framework.minis.beans.factory.SimpleBeanFactory;
+import com.linklate.framework.minis.beans.factory.support.AbstractBeanFactory;
 import com.linklate.framework.minis.core.Resource;
 import org.dom4j.Element;
 
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XmlBeanDefinitionReader {
-    SimpleBeanFactory simpleBeanFactory;
+    AbstractBeanFactory bf;
 
-    public XmlBeanDefinitionReader(SimpleBeanFactory bf) {
-        this.simpleBeanFactory = bf;
+    public XmlBeanDefinitionReader(AbstractBeanFactory bf) {
+        this.bf = bf;
     }
 
     public void loadBeanDefinitions(Resource res) {
@@ -47,19 +47,19 @@ public class XmlBeanDefinitionReader {
 
             //处理构造器参数
             List<Element> constructorElements = element.elements("constructor-arg");
-            ArgumentValues AVS = new ArgumentValues();
+            ConstructorArgumentValues AVS = new ConstructorArgumentValues();
             for (Element e : constructorElements) {
                 String aType = e.attributeValue("type");
                 String aName = e.attributeValue("name");
                 String aValue = e.attributeValue("value");
-                AVS.addArgumentValue(new ArgumentValue(aType, aName, aValue));
+                AVS.addArgumentValue(new ConstructorArgumentValue(aType, aName, aValue));
             }
             beanDefinition.setConstructorArgumentValues(AVS);
 
             String[] refArray = refs.toArray(new String[0]);
             beanDefinition.setDependsOn(refArray);
 
-            this.simpleBeanFactory.registerBeanDefinition(beanID, beanDefinition);
+            this.bf.registerBeanDefinition(beanID, beanDefinition);
         }
     }
 }

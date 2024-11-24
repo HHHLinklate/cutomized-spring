@@ -2,25 +2,16 @@ package com.linklate.framework.minis;
 
 import com.linklate.framework.minis.beans.BeansException;
 import com.linklate.framework.minis.beans.factory.BeanFactory;
-import com.linklate.framework.minis.beans.factory.SimpleBeanFactory;
+import com.linklate.framework.minis.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
+import com.linklate.framework.minis.beans.factory.config.AutowireCapableBeanFactory;
 import com.linklate.framework.minis.beans.factory.xml.XmlBeanDefinitionReader;
 import com.linklate.framework.minis.context.ApplicationEvent;
 import com.linklate.framework.minis.context.ApplicationEventPublisher;
 import com.linklate.framework.minis.core.ClassPathXmlResource;
 import com.linklate.framework.minis.core.Resource;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import sun.rmi.runtime.NewThreadAction;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationEventPublisher {
-    SimpleBeanFactory beanFactory;
+    AutowireCapableBeanFactory beanFactory;
 
     //context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
     public ClassPathXmlApplicationContext(String fileName) {
@@ -29,13 +20,13 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
 
     public ClassPathXmlApplicationContext(String fileName, boolean isRefresh) {
         Resource resource = new ClassPathXmlResource(fileName);
-        SimpleBeanFactory simpleBeanFactory = new SimpleBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(simpleBeanFactory);
+        AutowireCapableBeanFactory bf = new AutowireCapableBeanFactory();
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
         reader.loadBeanDefinitions(resource);
-        this.beanFactory = simpleBeanFactory;
+        this.beanFactory = bf;
         if (isRefresh) {
             try {
-                this.beanFactory.refresh();
+                refresh();
             } catch (BeansException e) {
                 throw new RuntimeException(e);
             }
@@ -47,7 +38,7 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
         return this.beanFactory.getBean(beanName);
     }
 
-    public Boolean containsBean(String name) {
+    public boolean containsBean(String name) {
         return this.beanFactory.containsBean(name);
     }
 
@@ -69,5 +60,23 @@ public class ClassPathXmlApplicationContext implements BeanFactory, ApplicationE
     @Override
     public void publishEvent(ApplicationEvent event) {
 
+    }
+
+    public void refresh() throws BeansException, IllegalStateException {
+        // Register bean processors that intercept bean creation.
+        registerBeanPostProcessors(this.beanFactory);
+
+        // Initialize other special beans in specific context subclasses.
+        onRefresh();
+    }
+
+    private void registerBeanPostProcessors(AutowireCapableBeanFactory bf) {
+        //if (supportAutowire) {
+        bf.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+        //}
+    }
+
+    private void onRefresh() {
+        this.beanFactory.refresh();
     }
 }
