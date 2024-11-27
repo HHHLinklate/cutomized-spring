@@ -1,6 +1,6 @@
 package com.linklate.framework.test.service;
 
-import com.linklate.framework.minis.beans.factory.annotation.Autowired;
+import com.linklate.framework.customizedspring.beans.factory.annotation.Autowired;
 
 public class BaseService {
 

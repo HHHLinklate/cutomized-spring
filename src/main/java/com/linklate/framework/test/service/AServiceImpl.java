@@ -26,6 +26,7 @@ public class AServiceImpl implements AService {
         this.ref1 = ref1;
     }
 
+    @Override
     public void sayHello() {
         System.out.println(this.property1 + "," + this.property2);
     }
