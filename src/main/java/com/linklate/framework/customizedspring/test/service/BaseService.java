@@ -1,4 +1,4 @@
-package com.linklate.framework.test.service;
+package com.linklate.framework.customizedspring.test.service;
 
 import com.linklate.framework.customizedspring.beans.factory.annotation.Autowired;
 

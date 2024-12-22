@@ -1,4 +1,4 @@
-package com.linklate.framework.test.service;
+package com.linklate.framework.customizedspring.test.service;
 
 
 public class AServiceImpl implements AService {

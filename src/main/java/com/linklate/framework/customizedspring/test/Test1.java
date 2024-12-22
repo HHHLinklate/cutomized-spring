@@ -1,9 +1,9 @@
-package com.linklate.framework.test;
+package com.linklate.framework.customizedspring.test;
 
 import com.linklate.framework.customizedspring.context.ClassPathXmlApplicationContext;
 import com.linklate.framework.customizedspring.beans.BeansException;
-import com.linklate.framework.test.service.AService;
-import com.linklate.framework.test.service.BaseService;
+import com.linklate.framework.customizedspring.test.service.AService;
+import com.linklate.framework.customizedspring.test.service.BaseService;
 
 public class Test1 {
 
