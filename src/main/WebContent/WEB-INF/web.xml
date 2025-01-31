@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         id="WebApp_ID">
     <servlet>
+        <!-- Servlet自定义名称，且<servlet-mapping>标签与<servlet>标签中的<servlet-name>配置一样，
+            表示用<servlet>标签中配置的Servlet进行URL请求拦截和映射匹配
+        -->
         <servlet-name>minisMVC</servlet-name>
+        <!-- 指定Servlet对应类，也是Web程序的核心代码 -->
         <servlet-class>com.linklate.framework.customizedspring.web.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
+            <!-- 初始化配置文件地址，表示所有的配置文件都由这里引入 -->
             <param-value>/WEB-INF/minisMVC-servlet.xml</param-value>
         </init-param>
+        <!-- 当值大于等于0时，容器启动时加载该Servlet，且值越小启动优先级越高。如果为负数，则容器启动时不会加载该Servlet -->
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>minisMVC</servlet-name>
+        <!-- 标签为“/”，表示拦截所有URL -->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>

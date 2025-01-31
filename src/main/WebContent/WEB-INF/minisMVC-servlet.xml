@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<beans>
-    <bean id="/helloworld" class="com.linklate.framework.customizedspring.test.HelloWorldBean" value="doGet"/>
-</beans>
+<?xml version="1.0" encoding="UTF-8" ?>
+<components>
+    <component-scan base-package="com.linklate.framework.customizedspring.test"/>
+</components>
